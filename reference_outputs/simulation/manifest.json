@@ -1,0 +1,85 @@
+{
+  "simulation": "exposure_correlated_aggregate_shock_learning_window_exposure",
+  "reps_requested": 1000,
+  "seed": 20261024,
+  "tau_true": -1.8747459297146785,
+  "empirical_panel_window": [
+    2008,
+    2022
+  ],
+  "exposure_estimation": {
+    "window": "learning_window",
+    "description": "State exposure is estimated from the first T0 simulated years within each replication and design before estimator weights are formed."
+  },
+  "gfe_construction": {
+    "finite_length": {
+      "gfe_source": "direct_empirical_rank2_svd_scaled_to_paper_gfe_sd_w1_y15",
+      "stats": {
+        "empirical_t": 15.0,
+        "rank": 2.0,
+        "sd_lowrank_w_emp": 0.018572922055465613,
+        "sd_lowrank_y_emp": 0.3652794049247827,
+        "sd_w_residual": 0.021358102757763404,
+        "sd_y_residual": 0.3807479603156485,
+        "share_w_residual_rank2": 0.7561973114956638,
+        "share_y_residual_rank2": 0.9203970167191103,
+        "sd_lowrank_w_used": 0.0021227739726075497,
+        "sd_lowrank_y_used": 0.042455479452150995
+      },
+      "gfe_scale_mode": "calibrated",
+      "gfe_scale_multiplier": 1.0,
+      "gfe_w_multiplier": 1.0,
+      "gfe_y_multiplier": 15.0,
+      "shock_w_multiplier": 1.0,
+      "shock_y_multiplier": 1.0
+    },
+    "longer_length": {
+      "gfe_source": "empirical_rank2_svd_loadings_with_fixed_synthetic_scores_scaled_to_paper_gfe_sd_w1_y15",
+      "stats": {
+        "empirical_t": 15.0,
+        "rank": 2.0,
+        "sd_lowrank_w_emp": 0.018572922055465613,
+        "sd_lowrank_y_emp": 0.3652794049247827,
+        "sd_w_residual": 0.021358102757763404,
+        "sd_y_residual": 0.3807479603156485,
+        "share_w_residual_rank2": 0.7561973114956638,
+        "share_y_residual_rank2": 0.9203970167191103,
+        "sd_lowrank_w_used": 0.0021227739726075497,
+        "sd_lowrank_y_used": 0.042455479452151
+      },
+      "gfe_scale_mode": "calibrated",
+      "gfe_scale_multiplier": 1.0,
+      "gfe_w_multiplier": 1.0,
+      "gfe_y_multiplier": 15.0,
+      "shock_w_multiplier": 1.0,
+      "shock_y_multiplier": 1.0
+    }
+  },
+  "aggregate_shock_construction": {
+    "h_z_corr": 0.5,
+    "theta_w_exposure_corr": 0.2,
+    "theta_y_exposure_corr": 0.3,
+    "theta_y_scale_multiplier": 3.0,
+    "estimator_oriented": false,
+    "severity_normalized_to_tsls_se": false
+  },
+  "inference": {
+    "arima_z_ar_order": 2,
+    "hac_lags": 1
+  },
+  "derived_scale_constants": {
+    "year_start": 2008,
+    "year_end": 2022,
+    "n_years": 15,
+    "n_units": 49,
+    "instrument_sd": 0.0001694437210279054,
+    "first_stage_component_sd": 0.007075913242025166,
+    "first_stage_component_rms": 0.007122830305381919,
+    "exposure_mean": 8.636386687733292,
+    "exposure_sd": 35.682156913460716
+  },
+  "skipped": {
+    "finite_length": 0,
+    "longer_length": 0
+  }
+}

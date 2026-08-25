@@ -1,0 +1,71 @@
+{
+  "protocol": "finite_window_weight_learning_v1",
+  "status": "prespecified",
+  "purpose": "Evaluate the finite-sample consequences of Robust SIV weight learning and exposure estimation at T0=5 and T1=10 without changing the principal simulation design.",
+  "production_reference": {
+    "output_directory": "reference_outputs/simulation",
+    "reference_files": [
+      "raw.csv",
+      "summary.csv",
+      "paired_differences.csv",
+      "component_summary.csv"
+    ],
+    "configuration": "finite_length",
+    "T0": 5,
+    "T1": 10,
+    "n_states": 49,
+    "baseline_seed": 20261024,
+    "baseline_reps": 1000,
+    "gfe_scale_mode": "calibrated",
+    "gfe_w_multiplier": 1.0,
+    "gfe_y_multiplier": 15.0,
+    "shock_w_multiplier": 1.0,
+    "shock_y_multiplier": 1.0
+  },
+  "population_objective_bank": {
+    "draws": 20000,
+    "seed": 20261630,
+    "checkpoints": [5000, 10000, 20000],
+    "split_halves": true,
+    "construction": "For each branch, average the exact Q_Y, Q_W, and rho objects across independent T0=5 learning panels, then solve the constrained quadratic problem using the fixed DGP exposure vector.",
+    "interpretation": "Finite-DGP population-objective benchmark; it is not asserted to equal the deterministic sequence in the asymptotic theorem."
+  },
+  "paired_evaluation": {
+    "reps": 5000,
+    "seed": 20261024,
+    "common_random_numbers": true,
+    "branches": [
+      "Basic",
+      "GFE",
+      "Aggregate Shock",
+      "GFE + Agg. Shock"
+    ],
+    "inference_methods": [
+      "ARIMA-Z",
+      "HAC",
+      "AR"
+    ]
+  },
+  "weight_variants": {
+    "robust_population_true_d": "Fixed DGP exposure and population-objective Q blocks and rho.",
+    "robust_learned_q_true_d": "Fixed DGP exposure and replication-specific learned Q blocks and rho.",
+    "robust_population_q_full_dhat": "Full-window estimated exposure and population-objective Q blocks and rho.",
+    "robust_full_empirical": "Full-window estimated exposure and replication-specific learned Q blocks and rho.",
+    "robust_reported_simulation": "Learning-window estimated exposure and replication-specific learned Q blocks and rho; this is the reported simulation weighting rule.",
+    "tsls_true_d": "TSLS weights formed from the fixed DGP exposure.",
+    "tsls_full_dhat": "TSLS weights formed from the full-window estimated exposure.",
+    "tsls_learning_dhat": "TSLS weights formed from the learning-window estimated exposure."
+  },
+  "fixed_decisions": {
+    "no_dgp_parameter_tuning": true,
+    "no_target_tuning": true,
+    "no_shock_orientation_tuning": true,
+    "no_severity_tuning": true,
+    "no_longer_window": true,
+    "no_leave_one_year_analysis": true,
+    "no_state_resampling": true,
+    "restricted_panel_treated_as_fixed": true,
+    "no_binary_adequacy_threshold_selected_after_results": true
+  },
+  "output_directory": "outputs/finite_window_weight_learning"
+}

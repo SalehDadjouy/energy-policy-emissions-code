@@ -1,0 +1,80 @@
+{
+  "protocol": "target_anchor_sensitivity_v1",
+  "status": "prespecified",
+  "purpose": "Determine whether the finite-window TSLS and Robust SIV comparison depends materially on the simulation target or on the target used to construct the restricted-panel outcome GFE template.",
+  "production_reference": {
+    "output_directory": "reference_outputs/simulation",
+    "reference_files": [
+      "raw.csv",
+      "summary.csv",
+      "paired_differences.csv",
+      "component_summary.csv"
+    ],
+    "configuration": "finite_length",
+    "T0": 5,
+    "T1": 10,
+    "n_states": 49,
+    "baseline_seed": 20261024,
+    "baseline_reps": 1000,
+    "baseline_target": -1.8747459297146785,
+    "gfe_scale_mode": "calibrated",
+    "gfe_w_multiplier": 1.0,
+    "gfe_y_multiplier": 15.0,
+    "shock_w_multiplier": 1.0,
+    "shock_y_multiplier": 1.0
+  },
+  "empirical_targets": [
+    {
+      "role": "restricted_tsls",
+      "value": -1.136097700507271,
+      "source": "Exact restricted-panel TSLS point estimate recomputed from data/panel_lag2.csv."
+    },
+    {
+      "role": "restricted_midpoint",
+      "value": -1.874745929714662,
+      "source": "Arithmetic midpoint of the exact restricted-panel TSLS and Robust SIV point estimates."
+    },
+    {
+      "role": "restricted_robust",
+      "value": -2.613394158922053,
+      "source": "Exact restricted-panel Robust SIV point estimate recomputed from data/panel_lag2.csv."
+    }
+  ],
+  "anchor_modes": {
+    "fixed_template": "Hold the baseline midpoint-derived treatment and outcome GFE templates fixed while changing only the structural simulation target in the generated outcome.",
+    "reanchored_template": "For each target, recompute the restricted-panel outcome residual Y minus tau W, remove state and year means, extract the rank-two SVD template, and apply the unchanged outcome-component scale."
+  },
+  "paired_execution": {
+    "reps": 1000,
+    "seed": 20261024,
+    "common_random_numbers": true,
+    "branches": [
+      "Basic",
+      "GFE",
+      "Aggregate Shock",
+      "GFE + Agg. Shock"
+    ],
+    "inference_methods": [
+      "ARIMA-Z",
+      "HAC",
+      "AR"
+    ]
+  },
+  "numerical_equivalence": {
+    "absolute_tolerance": 1e-10,
+    "relative_tolerance": 5e-15,
+    "rule": "Require absolute difference to be no greater than the absolute tolerance plus the relative tolerance times the absolute reference value."
+  },
+  "fixed_decisions": {
+    "no_full_panel_targets": true,
+    "no_zero_target": true,
+    "no_extrapolated_target": true,
+    "no_longer_window": true,
+    "no_dgp_parameter_tuning": true,
+    "no_confounding_geometry_change": true,
+    "no_severity_change": true,
+    "no_inference_change": true,
+    "no_metric_selection_after_results": true
+  },
+  "output_directory": "outputs/target_anchor_sensitivity"
+}

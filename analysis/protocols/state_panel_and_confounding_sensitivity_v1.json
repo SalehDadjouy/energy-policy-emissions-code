@@ -1,0 +1,56 @@
+{
+  "protocol": "state_panel_and_confounding_sensitivity_v1",
+  "status": "prespecified",
+  "purpose": "Evaluate whether the exposure-correlated simulation comparison changes with the empirical state panel or with prespecified aggregate-confounding parameters.",
+  "common": {
+    "reps": 1000,
+    "seed": 20261024,
+    "tau_true": -1.8747459297146785,
+    "gfe_w_multiplier": 1.0,
+    "gfe_y_multiplier": 15.0,
+    "theta_w_exposure_coefficient": 0.2,
+    "theta_y_exposure_coefficient": 0.3,
+    "theta_w_scale_multiplier": 1.0,
+    "arima_z_ar_order": 2,
+    "hac_lags": 1,
+    "inference_procedures": [
+      "ARIMA-Z",
+      "HAC",
+      "AR"
+    ],
+    "branches": [
+      "Basic",
+      "GFE",
+      "Aggregate Shock",
+      "GFE + Agg. Shock"
+    ]
+  },
+  "state_panel_sensitivity": {
+    "panels": {
+      "restricted": "49 jurisdictions excluding California and Vermont",
+      "full": "50 states and the District of Columbia"
+    },
+    "windows": {
+      "finite_length": [5, 10],
+      "longer_length": [30, 60]
+    },
+    "h_z_correlation_coefficient": 0.5,
+    "theta_y_scale_multiplier": 3.0,
+    "rule": "Apply the same DGP construction separately to the exposure profile and rank-two residual geometry of each state panel. Hold the causal target and all scalar calibration parameters fixed."
+  },
+  "confounding_grid": {
+    "panel": "restricted",
+    "window": [5, 10],
+    "h_z_correlation_coefficients": [0.25, 0.5, 0.75],
+    "theta_y_scale_multipliers": [1.5, 3.0, 4.5],
+    "rule": "Use common random numbers across all nine cells. Change only the aggregate-shock correlation coefficient and the outcome-shock loading scale."
+  },
+  "acceptance_checks": [
+    "No replication is skipped.",
+    "The restricted panel contains 49 jurisdictions and the full panel contains 51 jurisdictions.",
+    "The restricted baseline cell reproduces the principal simulation within 1e-10.",
+    "Every summary cell contains 1000 replications.",
+    "Independent reruns produce numerically equivalent analytical CSV files.",
+    "No parameter is selected or changed after results are observed."
+  ]
+}

@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "Please cite the associated paper and the repository version used."
+title: "Replication Package for Weighting Geometry in Aggregate-Instrument Causal Analysis of Renewable Energy Policy and Emissions"
+version: 1.1.0
+date-released: 2026-08-25
+authors:
+  - family-names: "Dadjouy"
+    given-names: "Saleh"
+    affiliation: "University of Northern Colorado"
+    email: "saleh.dadjouy@unco.edu"
+repository-code: "https://github.com/SalehDadjouy/energy-policy-emissions-code"
+url: "https://github.com/SalehDadjouy/energy-policy-emissions-code"
+license: MIT
+abstract: >-
+  Research materials for a state-panel aggregate instrumental-variable study
+  of renewable energy policy and electric-power emissions. The repository
+  contains the analysis-ready panel, empirical TSLS and Robust analyses,
+  exposure-correlated aggregate-shock simulations, reported sensitivity
+  analyses, reference results, and a workflow that reproduces the reported
+  analysis from the included inputs.
+keywords:
+  - aggregate instruments
+  - causal inference
+  - robust aggregate-instrument estimation
+  - renewable energy policy
+  - electric-power emissions
+  - reproducibility
+preferred-citation:
+  type: unpublished
+  authors:
+    - family-names: "Dadjouy"
+      given-names: "Saleh"
+  title: "Weighting Geometry in Aggregate-Instrument Causal Analysis of Renewable Energy Policy and Emissions"
+  year: 2026

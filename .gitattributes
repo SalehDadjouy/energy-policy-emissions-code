@@ -1,0 +1,3 @@
+reference_outputs/**/*.csv -text -diff
+reference_outputs/**/*.pdf -text -diff
+reference_outputs/**/*.png -text -diff
