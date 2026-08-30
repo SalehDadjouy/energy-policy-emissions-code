@@ -1,7 +1,7 @@
 # Replication Package for Weighting Geometry in Aggregate-Instrument Causal Analysis of Renewable Energy Policy and Emissions
 
 **Author:** Saleh Dadjouy, University of Northern Colorado<br>
-**Manuscript status:** Unpublished working paper, August 2026<br>
+**Manuscript status:** Under review at Statistics and Public Policy (submitted July 2026)<br>
 **Repository:** <https://github.com/SalehDadjouy/energy-policy-emissions-code>
 
 This repository reproduces the computational evidence reported in the paper
@@ -137,12 +137,12 @@ identify the reference files associated with this repository version.
 ## Citation and Versioning
 
 The machine-readable citation record is [`CITATION.cff`](CITATION.cff). Until a
-journal citation or archival DOI is available, the paper should be cited as an
-unpublished working paper:
+journal citation or archival DOI is available, the paper should be cited as a
+manuscript under review:
 
 > Dadjouy, Saleh. 2026. “Weighting Geometry in Aggregate-Instrument Causal
-> Analysis of Renewable Energy Policy and Emissions.” Unpublished working
-> paper, University of Northern Colorado.
+> Analysis of Renewable Energy Policy and Emissions.” Manuscript under review,
+> Statistics and Public Policy.
 
 When citing the computational materials, identify the GitHub release or commit
 used. A future archival release will add a persistent DOI without changing the
