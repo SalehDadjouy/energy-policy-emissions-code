@@ -2,158 +2,124 @@
 
 **Author:** Saleh Dadjouy, University of Northern Colorado<br>
 **Manuscript status:** Under review at Statistics and Public Policy (submitted July 2026)<br>
-**Repository:** <https://github.com/SalehDadjouy/energy-policy-emissions-code>
+**Repository:** https://github.com/SalehDadjouy/energy-policy-emissions-code
 
-This repository reproduces the computational evidence reported in the paper
-from the included analysis-ready data. It contains the empirical TSLS and
-Robust aggregate-instrument analyses, the principal
-Monte Carlo simulation, the reported sensitivity analyses, denominator
-diagnostics, the state-exposure figure, and validation checks for the values
-displayed in the manuscript.
+This package implements the empirical TSLS and Robust aggregate-instrument
+analyses and the simulation comparisons described in the paper. It includes
+analysis-ready data, reference results, the state-exposure figure program,
+and explicit verification procedures. The version 1.2.0 implementation uses the qualified
+likelihood-based ARIMA reporting implementation; the study's data-generating
+designs and point-estimation procedures retain their existing definitions.
 
-## Reproducibility Scope
+## Data and Reproduction Boundary
 
-The documented workflow reproduces the reported analysis from
-`data/panel_lag2.csv`, `data/exposure_full.csv`, and
-`data/exposure_restricted.csv`. It covers:
+The inputs are `data/panel_lag2.csv`, `data/exposure_full.csv`, and
+`data/exposure_restricted.csv`. Sources and construction are documented in
+[`data/README.md`](data/README.md). This package starts from those analytical
+files, not the underlying raw agency records.
 
-- empirical point estimates, first-stage diagnostics, and interval procedures;
-- primary- and longer-window simulation results, with state exposure estimated
-  from the learning window in every replication and design;
-- paired estimator comparisons and denominator diagnostics;
-- full- and restricted-panel simulation comparisons;
-- finite-window weight-learning, target-anchor, aggregate-confounding, and
-  omitted-shock-orientation sensitivities;
-- the state-exposure figure; and
-- automated checks against the reference results associated with this version.
+The finite-window weight analysis also takes the verified 20,000-draw
+objective file, `data/finite_window_population_objective.npz`, as an input.
+It regenerates the paired evaluation, not the objective bank. The bank's
+weight and convergence summaries remain archived references. Their presence
+does not constitute a new reproduction of the bank-construction experiment.
 
-The repository does not reconstruct `panel_lag2.csv` from the original agency
-files. Those source records, the treatment-construction stages, and the
-resulting analysis-ready panel are described in [`data/README.md`](data/README.md)
-and in the paper. This distinction separates reproduction of the reported
-analysis from reconstruction of the underlying data.
+## Installation and Preflight
 
-## Repository Contents
-
-| Path | Purpose |
-|---|---|
-| [`data/`](data/) | Analysis-ready panel, full and restricted exposure profiles, variable definitions, source provenance, and data-rights statement |
-| [`empirical.py`](empirical.py) | Empirical TSLS and Robust estimates, first-stage diagnostics, and interval procedures |
-| [`run_simulation.py`](run_simulation.py) | Paired Monte Carlo simulation for the primary and longer synthetic windows |
-| [`sim/`](sim/) | Simulation data-generating processes, estimators, weighting, and inference functions |
-| [`analysis/`](analysis/) | Prespecified state-panel, confounding-grid, weight-learning, target-anchor, and orientation analyses |
-| [`audit_denominator_tails.py`](audit_denominator_tails.py) | Denominator-tail diagnostics for shock-active simulation designs |
-| [`make_exposure_figure.py`](make_exposure_figure.py) | State-exposure figure and plotted coefficients |
-| [`validate_results.py`](validate_results.py) | Data-integrity and paper-value checks |
-| [`reference_outputs/`](reference_outputs/) | Versioned empirical results, simulation records, diagnostics, figure, and checksums |
-| [`RESEARCH_OUTPUTS.md`](RESEARCH_OUTPUTS.md) | Exact mapping from manuscript exhibits to programs and generated files |
-
-## Reproduction Instructions
-
-Python 3.11 is recommended. From a fresh clone:
+Use Python 3.11 and the exact versions in `requirements-reproduction.txt`.
+This file includes the direct and transitive dependencies and installation
+tools used for qualification. For qualification,
+create the environment outside the repository:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python reproduce.py
+python3.11 -m venv ../replication_environment
+source ../replication_environment/bin/activate
+python -m pip install -r requirements-reproduction.txt
+python -B reproduce.py --preflight
+python -B reproduce.py --structural-only
 ```
 
-The final command runs the empirical analysis, the one-thousand-replication
-principal simulation, every reported sensitivity analysis, the denominator
-diagnostics, the exposure-figure build, and the validation checks. The
-principal simulation estimates state exposure from the learning years before
-constructing either estimator's weights. A successful full run ends with:
+Preflight verifies package integrity and records the Python version, numerical
+libraries, operating system, thread settings, and figure font. Structural
+tests do not fit models or run Monte Carlo experiments. The default command
+is preflight only, so execution requires an explicit flag.
 
-```text
-PASS: generated data, empirical results, simulations, and displayed paper values agree.
-```
+## Numerical Execution
 
-For a structural check of the complete workflow with fewer Monte Carlo draws:
+Save the preflight environment record outside the repository before running:
 
 ```bash
-python reproduce.py --quick
+python -B reproduce.py --preflight > ../preflight.json
+python -c 'import json; p=json.load(open("../preflight.json")); json.dump(p["environment"],open("../environment.json","w"),indent=2)'
+python -B reproduce.py --execute --output ../primary_run --environment-lock ../environment.json
 ```
 
-The quick workflow verifies execution and file production. Its Monte Carlo
-results are not the values reported in the paper.
+The destination must be new and outside the package. The workflow executes
+the empirical analysis, principal simulation, denominator diagnostics,
+state-panel comparison, confounding grid, finite-window weight evaluation,
+target-anchor analysis, shock-orientation analysis, and exposure figures.
+The exact commands, artifact counts, keys, and schemas are in `WORKFLOW.json`.
+No reference output is substituted for a generated result.
 
-To reproduce only the empirical analysis, principal simulation, diagnostics,
-figure, and validation checks:
+Completed stages have checksummed receipts. To resume after interruption, use
+the same command with `--resume`. Completed, unchanged stages are reused.
+An incomplete stage is preserved and requires investigation; the workflow
+does not silently delete it or start that stage again.
+
+## Independent Reproduction
+
+Before publication, clone the exact release-candidate commit into a new
+location and install a fresh environment with the same pinned configuration.
+Run the same workflow with a new output and cache directory. Use the original
+environment record; an environment mismatch must be investigated before
+execution. Then compare the two runs:
 
 ```bash
-python reproduce.py --core-only
+python -B reproduce.py --compare ../primary_run ../clean_clone_run
 ```
 
-The archived sensitivity summaries remain available under
-`reference_outputs/sensitivity/` and are validated by the default full
-workflow.
+Execution integrity, same-environment reproduction, and archived numerical
+compatibility are separate checks. Independent reproduction requires exact
+bytes for the declared scientific CSV files, objective input, and rendered
+figures. Path-dependent manifests and logs retain their own integrity records.
+Fixed figure timestamps prevent a timestamp alone from changing PDF bytes.
+Archived comparisons retain their specified tolerances. Differences are
+reported and block release acceptance; they do not cancel an otherwise valid
+independent reproduction.
 
-## Computational Requirements
+An execution exit code of zero establishes execution completion only.
+The comparison command reports each acceptance check and exits unsuccessfully
+if independent reproduction or either archived comparison has not passed.
 
-- Python 3.11
-- Packages and exact versions in [`requirements.txt`](requirements.txt)
-- Approximately 1 GB of free space for the repository, environment, and
-  generated outputs
-- No proprietary software, private credentials, or absolute filesystem paths
+The clean-clone run is the independent reproduction, not an additional third
+experiment. After publication, compare the published tree with the verified
+tree and perform integrity and structural checks. Automatic CI runs these
+checks only; it does not launch another simulation.
 
-The sensitivity analyses are computationally intensive because they add
-state-panel, parameter-grid, target, weight-learning, and orientation
-replications to the principal simulation. On the documented macOS system, the
-principal one-thousand-replication simulation finished in approximately seven
-minutes after dependency installation. The quick workflow finished in
-approximately two minutes. Installation time and computational runtime vary
-by machine and network.
+## Inference and Provenance
 
-GitHub Actions runs syntax checks, validates the archived reference results,
-and executes the quick workflow on Ubuntu with Python 3.11.
+ARIMA reporting fits stationary ARIMA(2,0,0) by likelihood and uses analytical
+covariance with the observed denominator. The existing critical-value rules,
+HAC and orthogonality-inversion procedures remain in place. Shock-orientation
+severity calibration retains its existing helper; reporting uses the
+qualified conditional gradient retry only for nonconvergence.
 
-## Data Availability
+`qualified_inference/provenance.json` records the transferred routines and
+their preparation status. It is not a live release-acceptance certificate.
+Acceptance is established by the separate execution and reproduction reports.
+`PACKAGE_LOCK.json` identifies the complete package tree.
+`reference_outputs/SHA256SUMS` identifies the archived reference files.
+[`RESEARCH_OUTPUTS.md`](RESEARCH_OUTPUTS.md) maps the manuscript exhibits.
+The package does not rebuild the manuscript's typesetting.
 
-The repository includes the three analysis-ready CSV files required by the
-documented workflow. The underlying data originate from publicly available
-records of the U.S. Environmental Protection Agency, U.S. Energy Information
-Administration, U.S. Department of the Treasury, and U.S. Bureau of Economic
-Analysis. [`data/README.md`](data/README.md) documents the files, variables,
-transformations, original sources, and reuse conditions.
+## Citation and Contact
 
-## Outputs and Verification
+Until a journal citation or archival DOI is available:
 
-`python reproduce.py` writes regenerated files under `outputs/`. The paper-to-
-output mapping appears in [`RESEARCH_OUTPUTS.md`](RESEARCH_OUTPUTS.md).
+Dadjouy, Saleh. 2026. "Weighting Geometry in Aggregate-Instrument Causal Analysis
+of Renewable Energy Policy and Emissions." Manuscript under review,
+Statistics and Public Policy.
 
-To validate an existing output directory directly:
-
-```bash
-python validate_results.py
-```
-
-The validation program checks the input files, empirical results, principal
-simulation summaries, sensitivity summaries, and manuscript values. SHA-256
-checksums in [`reference_outputs/SHA256SUMS`](reference_outputs/SHA256SUMS)
-identify the reference files associated with this repository version.
-
-## Citation and Versioning
-
-The machine-readable citation record is [`CITATION.cff`](CITATION.cff). Until a
-journal citation or archival DOI is available, the paper should be cited as a
-manuscript under review:
-
-> Dadjouy, Saleh. 2026. “Weighting Geometry in Aggregate-Instrument Causal
-> Analysis of Renewable Energy Policy and Emissions.” Manuscript under review,
-> Statistics and Public Policy.
-
-When citing the computational materials, identify the GitHub release or commit
-used. A future archival release will add a persistent DOI without changing the
-reproduction commands.
-
-## License and Contact
-
-The programs are released under the [MIT License](LICENSE). The included
-analytical data retain the citation and reuse conditions of their underlying
-public sources; see [`data/README.md`](data/README.md) and
-[`data/RIGHTS.md`](data/RIGHTS.md).
-
-Questions about the research materials may be directed to Saleh Dadjouy at
-saleh.dadjouy@unco.edu.
+Use [`CITATION.cff`](CITATION.cff) and identify the release or commit used.
+Code is distributed under the [MIT License](LICENSE); data conditions are in
+[`data/RIGHTS.md`](data/RIGHTS.md). Contact: saleh.dadjouy@unco.edu.

@@ -302,6 +302,9 @@ def _iv_moment_fields(y: np.ndarray, w: np.ndarray, z: np.ndarray) -> dict[str, 
     }
 
 
+from qualified_inference.reporting import orientation_arima_result
+
+
 def _inference_records(
     *,
     base: dict[str, object],
@@ -316,7 +319,7 @@ def _inference_records(
     crit_hac = _crit("HAC", T1)
     crit_ar = _crit("AR", T1)
 
-    arima = raw_z_arp_design_based_se(
+    arima = orientation_arima_result(
         y, w, z, z_process=z_process, ar_order=active.ARIMA_AR_ORDER, varz_mode="window"
     )
     bias = float(arima.tau - active.TAU)

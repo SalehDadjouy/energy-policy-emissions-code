@@ -1,0 +1,7 @@
+{
+  "input_sha256": "01e6a0aa604818b1698b81d00b1dc1198122a06d3580cf5e813bdee99ca92c19",
+  "output_sha256": "792dc1d2455a682b8eb55ec1af08eb87edf4273363bf9510daa290d06fabf654",
+  "procedure": "paired_differences on frozen principal records; no stochastic execution",
+  "rows": 8,
+  "summary_function_source_sha256": "25d1cbbd7b50d236b5fb162ed9a8a581f6ceb8145a621c7c18b97c2637e0895e"
+}

@@ -1,8 +1,7 @@
 cff-version: 1.2.0
 message: "Please cite the associated paper and the repository version used."
 title: "Replication Package for Weighting Geometry in Aggregate-Instrument Causal Analysis of Renewable Energy Policy and Emissions"
-version: 1.1.0
-date-released: 2026-08-25
+version: 1.2.0
 authors:
   - family-names: "Dadjouy"
     given-names: "Saleh"

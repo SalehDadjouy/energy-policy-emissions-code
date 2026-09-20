@@ -42,7 +42,8 @@ from sim.dgp import (  # noqa: E402
 )
 from sim.estimators import aggregate_series, unit_level_slope_vector  # noqa: E402
 from sim.helpers import shock_bias_component  # noqa: E402
-from sim.inference import ar_style_test, hac_delta_se, raw_z_arp_design_based_se  # noqa: E402
+from sim.inference import ar_style_test, hac_delta_se  # noqa: E402
+from qualified_inference.reporting import reporting_arima_result as raw_z_arp_design_based_se  # noqa: E402
 from sim.model_class import (  # noqa: E402
     BRANCH_SWITCHES,
     ModelClassComponents,

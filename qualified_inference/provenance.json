@@ -1,0 +1,17 @@
+{
+  "common_sha256": "024ca61509c01331e85910b9bedf7bc0cb8e1b74bd78aec54d9a1ed0de5e8109",
+  "objective_bank_draws": 20000,
+  "objective_bank_regeneration_verified": false,
+  "objective_bank_sha256": "78e403a88e2f40004c5f06e1d9fa15c0420452020969dab091d5ce0bfd69bfa7",
+  "orientation_protocol_fingerprint": "eeac96d72b352d6337a12dd45e6a3cc6186d06bb2a5c5c7991ed6aa8404b60c2",
+  "private_full_verification_sha256": "9563d40e0d80cf657bad91f0c2d46faafc58746346d4eca84ad8e4a05ef47fe8",
+  "public_candidate_numerically_verified": false,
+  "source_files": {
+    "adapter.py": "a6077cc74294947d7881e1b4de58831819adfd75f4bfae0b76e2b8f13d3534d0",
+    "orientation_gradient_candidate.py": "dd3e40e4797fbaf34edccda4f55390b8e38e02d58d36bea30399b5916fb01028",
+    "orientation_likelihood_diagnostic.py": "5dfb968bca0777585bf0327dacb00ecb86f059e5c3b86bcb09cfb65d5f4730f6",
+    "orientation_point_reporting.py": "b9cb8c88c54f05a2f453fd1bdefad88777d6ec40f05b7819d3f5c79b9b2ea391",
+    "target_anchor_compat.py": "06253d05b983a0df29f2f190769a9807fef2b0703f79e771653ceaa629b17081",
+    "verify_orientation_gradient_stopping.py": "934f01b3301241b790ff0c6431eb36596038aff95297bc0e701f1b662c9b234d"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "protocol": "target_anchor_cross_version_compatibility_v1",
+  "purpose": "Execute the frozen target-anchor DGP with approved version-2 ARIMA reporting while validating unchanged quantities across archived NumPy 2.4.0 and pinned NumPy 2.4.4 environments.",
+  "cross_version_numeric_equivalence": {
+    "absolute_tolerance": 1e-07,
+    "relative_tolerance": 1e-10,
+    "rule": "For unchanged numeric quantities, require absolute difference no greater than 1e-7 plus 1e-10 times the absolute archived reference value.",
+    "scope": "Only archived-reference comparisons across NumPy 2.4.0 and 2.4.4. It does not relax structural constraints, target-anchor invariance checks, or within-environment independent reproduction."
+  },
+  "approved_reporting_change": {
+    "method": "ARIMA-Z",
+    "excluded_archived_reference_fields": ["se", "covered"],
+    "reason": "The version-2 ARIMA standard error and target-containment decision are the approved quantities being recomputed."
+  },
+  "invariants": {
+    "dgp": "unchanged",
+    "target_grid": "unchanged",
+    "weights": "unchanged",
+    "calibration": "unchanged",
+    "seeds": "unchanged",
+    "hac_and_ar_reporting": "unchanged",
+    "structural_keys_and_row_counts": "exact",
+    "non_arima_containment_against_archive": "exact",
+    "independent_reproduction_under_numpy_2_4_4": "byte-identical"
+  }
+}
