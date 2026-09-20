@@ -7,7 +7,7 @@
     "LICENSE": "3f76e2332ccb69b81de639811e28c78c1c85bdd14dd7b25cd99cacf3667acff6",
     "README.md": "55a64ea82e2b22dd11072148508251952bc0c66831a6df94e6693a8bbdc21ae7",
     "RESEARCH_OUTPUTS.md": "241ab674dbee86ad9dfa9bc25d29022824f1fb688ef4b4518807a5a24fcc2a13",
-    "WORKFLOW.json": "1346b7229a469e1f90b60565918d80735e53cf224eb0e83e043939dc94292f27",
+    "WORKFLOW.json": "e54069f2982f9db31b049c609abeffcdea7dfcaf322f29863756b0bfa404df5e",
     "analysis/finite_window_weight_learning.py": "87b3721a76552bce6494e6cfc009ad9137541482e69f06c2ee296ed123bffde1",
     "analysis/protocols/finite_window_weight_learning_v1.json": "2658add40283a669789ee3f7b9e83ebb4b42e731a066a5165660488b11db84f8",
     "analysis/protocols/state_panel_and_confounding_sensitivity_v1.json": "87e458b1d0172b3060b5b7a68770a87676e9f28c1e019b8acf201198547027cd",
@@ -90,6 +90,7 @@
     "simulation_reporting.py": "25d1cbbd7b50d236b5fb162ed9a8a581f6ceb8145a621c7c18b97c2637e0895e",
     "tests/test_candidate.py": "cf6ccb9d23645c5c978b06285c7702018d8815a1b98604699e5f223a92f79ae2",
     "tests/test_release.py": "8cbb6607ee8472db4a7e7bb4cd13e08f8c25f9d8b4b60db06bc99e9f8ec7df90",
+    "tests/test_target_contract_counts.py": "e012914428795762c5347b3bdfd80741562581cba0bab3712820481ebc6d9a59",
     "validate_results.py": "4d6f55f4cb70ec492c6817929205c40ba2d34fbfe00628c74d05ded798c91049",
     "validation_data/reference_outputs/simulation/raw.csv": "bae8dbca09c16400f7119e25f5beb54dda2ca57d85e10886dc8d215c303bcc09"
   },

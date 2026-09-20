@@ -6220,6 +6220,271 @@
             "weight_relative_rms_distance",
             "weight_max_abs_difference"
           ],
+          "group_keys": [
+            "anchor_mode",
+            "target_role",
+            "midpoint_role",
+            "branch",
+            "estimator"
+          ],
+          "groups": [
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Aggregate Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Aggregate Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Basic",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Basic",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Aggregate Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Aggregate Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Basic",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "Basic",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "fixed_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Aggregate Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Aggregate Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Basic",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Basic",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_robust"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Aggregate Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Aggregate Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Basic",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "Basic",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "SIV",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            },
+            {
+              "anchor_mode": "reanchored_template",
+              "branch": "GFE + Agg. Shock",
+              "estimator": "TSLS",
+              "midpoint_role": "restricted_midpoint",
+              "n": 1000,
+              "target_role": "restricted_tsls"
+            }
+          ],
           "keys": [
             "anchor_mode",
             "target_role",
@@ -6227,7 +6492,7 @@
             "branch",
             "estimator"
           ],
-          "rows": 48000
+          "rows": 32000
         }
       },
       "name": "target_anchor",
