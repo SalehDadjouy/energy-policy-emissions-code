@@ -1,10 +1,9 @@
 # Manuscript Exhibits and Computational Outputs
 
-This map follows the current SPP manuscript's table labels, checked against
-its compiled auxiliary file on September 20, 2026. No manuscript was changed
-to prepare this candidate. Paths below are archived reference files, not a
-claim that a numerical qualification has been completed. The corresponding
-generated files appear under the chosen run directory.
+This map connects the manuscript's figures and tables to the package's
+reference outputs. The exhibit labels were checked against the manuscript
+on September 20, 2026. Independently generated results appear under the run
+directory selected by the user.
 
 | Exhibit | Content | Reference file under `reference_outputs/` |
 |---|---|---|
@@ -21,15 +20,14 @@ generated files appear under the chosen run directory.
 | Table S3 | Longer-window point and interval performance | `simulation/summary.csv` |
 
 The manuscript's typesetting is not rebuilt by this package. The analysis
-programs remain `empirical.py`, `run_simulation.py`,
+programs are `empirical.py`, `run_simulation.py`,
 `make_exposure_figure.py`, and the four programs under `analysis/`.
 `audit_denominator_tails.py` supplies the denominator diagnostics.
-The finite-window analysis must evaluate the included objective file instead
-of rebuilding it during the proposed qualified workflow.
+The finite-window analysis evaluates the included fixed objective bank.
 
-WORKFLOW.json declares the commands and generated artifacts. Table 7 uses
-the bank's archived convergence summaries alongside the regenerated paired
-evaluation; bank construction is an input boundary, not a newly executed
-stage. Independent numerical reproduction and archived compatibility are
-separate acceptance checks; neither is established by validating reference
-files against their own checksums.
+`WORKFLOW.json` specifies the commands and generated artifacts. Table 7 uses
+the bank's archived convergence summaries alongside the paired evaluation
+produced by the workflow. Construction of the bank is outside the workflow.
+The comparison command separately evaluates agreement between independent
+runs and agreement with the archived reference results. Checksums establish
+file integrity.

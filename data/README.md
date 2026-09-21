@@ -35,18 +35,37 @@ window and complete observations used in the paper.
 
 ### `exposure_full.csv` and `exposure_restricted.csv`
 
-These files contain the full-panel exposure profile and the 49-state profile
-used after California and Vermont are excluded under the diagnostic
-restriction. `validate_results.py` re-estimates both exposure profiles from
-`panel_lag2.csv` and requires agreement to numerical precision.
+The full file contains 51 jurisdictions: the 50 states and the District of
+Columbia. The restricted file contains 49 jurisdictions after California
+and Vermont are excluded under the diagnostic restriction.
+`validate_results.py` re-estimates both exposure profiles from
+`panel_lag2.csv` and requires agreement to numerical precision. The files
+use different weight-column names and stored TSLS weight scales, as
+documented separately below.
+
+**`exposure_full.csv`**
 
 | Variable | Definition |
 |---|---|
-| `unit` | Two-letter state abbreviation |
-| `w_tsls` | Centered exposure weight, `D_tsls` minus its 49-state mean, stored on the unnormalized TSLS scale |
+| `unit` | Two-letter state or District of Columbia abbreviation |
+| `w_tsls` | State exposure minus the full-panel mean exposure, divided by the full-panel exposure variance calculated with divisor 51 |
+| `w_siv` | Robust aggregation weight learned from the full empirical panel |
+| `D_tsls` | State exposure coefficient used by the TSLS construction |
+| `D_siv` | Duplicate of `D_tsls` in the estimator-specific input schema; Robust uses the same exposure coefficient |
+
+**`exposure_restricted.csv`**
+
+| Variable | Definition |
+|---|---|
+| `unit` | Two-letter state or District of Columbia abbreviation |
+| `w_tsls` | State exposure minus the restricted-panel mean exposure, stored on the unnormalized TSLS scale across 49 jurisdictions |
 | `w_rob` | Robust aggregation weight learned from the restricted empirical panel |
 | `D_tsls` | State exposure coefficient used by the TSLS construction and simulation calibration |
-| `D_rob` | Duplicate of `D_tsls`, retained for compatibility with the estimator-specific input schema; Robust uses the same exposure constraint |
+| `D_rob` | Duplicate of `D_tsls` in the estimator-specific input schema; Robust uses the same exposure coefficient |
+
+These definitions describe the values stored in the input CSV files.
+The simulation programs read the exposure coefficients and construct
+estimator weights for each simulated panel.
 
 ## Original Data Sources
 
