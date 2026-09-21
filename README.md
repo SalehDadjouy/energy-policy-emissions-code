@@ -4,12 +4,12 @@
 **Manuscript status:** Under review at Statistics and Public Policy (submitted July 2026)<br>
 **Repository:** https://github.com/SalehDadjouy/energy-policy-emissions-code
 
-This package implements the empirical TSLS and Robust aggregate-instrument
-analyses and the simulation comparisons described in the paper. It includes
-analysis-ready data, reference results, the state-exposure figure program,
-and explicit verification procedures. The version 1.2.0 implementation uses the qualified
-likelihood-based ARIMA reporting implementation; the study's data-generating
-designs and point-estimation procedures retain their existing definitions.
+This package implements the paper's empirical and simulation comparisons of
+two-stage least squares (TSLS) and the robust aggregate-instrument estimator
+(Robust). It includes analysis-ready data, reference results, a program for
+the state-exposure figure, and verification procedures. Autoregressive
+integrated moving average (ARIMA) inference uses stationary likelihood
+estimation and analytical covariance with the observed denominator.
 
 ## Data and Reproduction Boundary
 
@@ -18,18 +18,17 @@ The inputs are `data/panel_lag2.csv`, `data/exposure_full.csv`, and
 [`data/README.md`](data/README.md). This package starts from those analytical
 files, not the underlying raw agency records.
 
-The finite-window weight analysis also takes the verified 20,000-draw
+The finite-window weight analysis also takes the fixed 20,000-draw
 objective file, `data/finite_window_population_objective.npz`, as an input.
-It regenerates the paired evaluation, not the objective bank. The bank's
-weight and convergence summaries remain archived references. Their presence
-does not constitute a new reproduction of the bank-construction experiment.
+The workflow reproduces the paired estimator evaluation using that bank.
+The package also includes the bank's reference weights and convergence
+summaries. Construction of the bank is outside the reproduction workflow.
 
 ## Installation and Preflight
 
 Use Python 3.11 and the exact versions in `requirements-reproduction.txt`.
-This file includes the direct and transitive dependencies and installation
-tools used for qualification. For qualification,
-create the environment outside the repository:
+This file pins the direct and transitive dependencies and installation
+tools. Create the environment outside the repository:
 
 ```bash
 python3.11 -m venv ../replication_environment
@@ -59,17 +58,16 @@ the empirical analysis, principal simulation, denominator diagnostics,
 state-panel comparison, confounding grid, finite-window weight evaluation,
 target-anchor analysis, shock-orientation analysis, and exposure figures.
 The exact commands, artifact counts, keys, and schemas are in `WORKFLOW.json`.
-No reference output is substituted for a generated result.
+Reference outputs provide the comparison values for validation.
 
 Completed stages have checksummed receipts. To resume after interruption, use
 the same command with `--resume`. Completed, unchanged stages are reused.
-An incomplete stage is preserved and requires investigation; the workflow
-does not silently delete it or start that stage again.
+An incomplete stage is preserved for inspection before execution resumes.
 
 ## Independent Reproduction
 
-Before publication, clone the exact release-candidate commit into a new
-location and install a fresh environment with the same pinned configuration.
+For an independent reproduction, check out the same release or commit in a
+separate location and install a fresh environment with the pinned configuration.
 Run the same workflow with a new output and cache directory. Use the original
 environment record; an environment mismatch must be investigated before
 execution. Then compare the two runs:
@@ -83,30 +81,31 @@ compatibility are separate checks. Independent reproduction requires exact
 bytes for the declared scientific CSV files, objective input, and rendered
 figures. Path-dependent manifests and logs retain their own integrity records.
 Fixed figure timestamps prevent a timestamp alone from changing PDF bytes.
-Archived comparisons retain their specified tolerances. Differences are
-reported and block release acceptance; they do not cancel an otherwise valid
-independent reproduction.
+Comparisons with archived results use the tolerances specified in
+`WORKFLOW.json`. The report identifies differences separately from the
+comparison between the two independently generated runs.
 
 An execution exit code of zero establishes execution completion only.
 The comparison command reports each acceptance check and exits unsuccessfully
 if independent reproduction or either archived comparison has not passed.
 
-The clean-clone run is the independent reproduction, not an additional third
-experiment. After publication, compare the published tree with the verified
-tree and perform integrity and structural checks. Automatic CI runs these
-checks only; it does not launch another simulation.
+Automatic checks on GitHub verify package integrity and run structural tests.
+Numerical reproduction uses the explicit execution commands above.
 
 ## Inference and Provenance
 
-ARIMA reporting fits stationary ARIMA(2,0,0) by likelihood and uses analytical
-covariance with the observed denominator. The existing critical-value rules,
-HAC and orthogonality-inversion procedures remain in place. Shock-orientation
-severity calibration retains its existing helper; reporting uses the
-qualified conditional gradient retry only for nonconvergence.
+ARIMA inference fits stationary ARIMA(2,0,0) by likelihood and uses analytical
+covariance with the observed denominator. The comparison procedures use
+heteroskedasticity-and-autocorrelation-consistent (HAC) standard errors and
+Anderson-Rubin-style test inversion. In the shock-orientation analysis,
+severity calibration and interval calculation are separate steps. If the
+initial likelihood fit does not converge, the interval calculation retries
+the same likelihood using the specified transformed-parameter gradient.
 
-`qualified_inference/provenance.json` records the transferred routines and
-their preparation status. It is not a live release-acceptance certificate.
-Acceptance is established by the separate execution and reproduction reports.
+`qualified_inference/provenance.json` preserves source hashes and the status
+recorded when the routines were assembled. Completed verification for the
+published package is summarized in the
+[v1.2.0 release](https://github.com/SalehDadjouy/energy-policy-emissions-code/releases/tag/v1.2.0).
 `PACKAGE_LOCK.json` identifies the complete package tree.
 `reference_outputs/SHA256SUMS` identifies the archived reference files.
 [`RESEARCH_OUTPUTS.md`](RESEARCH_OUTPUTS.md) maps the manuscript exhibits.
