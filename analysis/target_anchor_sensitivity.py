@@ -34,7 +34,9 @@ from sim.estimators import (  # noqa: E402
     unit_level_slope_vector,
 )
 from sim.helpers import shock_bias_component  # noqa: E402
-from sim.inference import ar_style_test, hac_delta_se, raw_z_arp_design_based_se  # noqa: E402
+from sim.inference import ar_style_test, hac_delta_se  # noqa: E402
+from qualified_inference.reporting import reporting_arima_result as raw_z_arp_design_based_se  # noqa: E402
+from qualified_inference.reporting import install_target_checks  # noqa: E402
 from sim.model_class import BRANCH_SWITCHES, ModelClassComponents, build_branch_panel, estimate_branch_panel  # noqa: E402
 
 
@@ -1019,6 +1021,8 @@ def main() -> None:
         "structural_checks": manifest["structural_checks"],
     }, indent=2))
 
+
+install_target_checks(sys.modules[__name__])
 
 if __name__ == "__main__":
     main()

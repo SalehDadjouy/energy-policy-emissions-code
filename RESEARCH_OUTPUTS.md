@@ -1,56 +1,35 @@
 # Manuscript Exhibits and Computational Outputs
 
-This document maps each computational exhibit in *Weighting Geometry in
-Aggregate-Instrument Causal Analysis of Renewable Energy Policy and Emissions*
-to the program and generated file that supports it. Table and figure numbers
-refer to the August 2026 working-paper version.
+This map follows the current SPP manuscript's table labels, checked against
+its compiled auxiliary file on September 20, 2026. No manuscript was changed
+to prepare this candidate. Paths below are archived reference files, not a
+claim that a numerical qualification has been completed. The corresponding
+generated files appear under the chosen run directory.
 
-## Exhibit Map
-
-| Manuscript exhibit | Reported content | Program | Generated file |
-|---|---|---|---|
-| Figure 1. State Exposure Coefficients for Wind-and-Solar Retail Sales Intensity | Full-panel exposure coefficients and ordered state ranking | `python make_exposure_figure.py` | `outputs/figures/paper_exposure_distribution.pdf`; plotted values in `outputs/figures/exposure_coefficients.csv` |
-| Table 1. Empirical First-Stage Slopes, Standard Errors, and HAC F Statistics | Instrument-treatment slopes and first-stage diagnostics by estimator and panel | `python empirical.py` | `outputs/empirical/results_summary.csv` |
-| Table 2. Empirical Point Estimates with ARIMA, HAC, and Orthogonality-Inversion Inference | Point estimates, standard errors, p-values, and confidence sets | `python empirical.py` | `outputs/empirical/results_summary.csv` |
-| Table 3. Empirical and Simulated First-Stage, Standard-Error, and Residual Diagnostics in the Primary Window | Restricted-panel empirical diagnostics and simulated GFE + Aggregate Shock distributions | `python empirical.py`; `python run_simulation.py` | `outputs/empirical/results_summary.csv`; `outputs/simulation/raw.csv`; `outputs/simulation/summary.csv` |
-| Table 4. Finite-Window Consequences of Weight Learning for the Robust Estimator | Reference, full-window-exposure, and learning-window-exposure weight and interval comparisons | `python analysis/finite_window_weight_learning.py --stage all` | `outputs/sensitivity/finite_window_weight_learning/weight_summary.csv`; `estimate_summary.csv`; `paired_effects.csv`; `population_convergence.csv` |
-| Table 5. Estimator Differences Across Simulation Target Anchors in the Primary Window | Paired estimator differences at three empirically defined targets | `python analysis/target_anchor_sensitivity.py --execute-full` | `outputs/sensitivity/target_anchor/estimator_differences.csv`; supporting summaries in the same directory |
-| Table 6. Primary-Window Bias and Root Mean Squared Error in the Full and Restricted Panels | Bias and RMSE across four designs and two state panels | `python run_simulation.py`; `python analysis/state_panel_and_confounding_sensitivity.py --mode sample` | `outputs/simulation/summary.csv`; `outputs/sensitivity/state_panel/summary.csv` |
-| Table 7. Bias and Root Mean Squared Error Differences Across Aggregate-Confounding Settings | Paired point-performance differences over the aggregate-confounding grid | `python analysis/state_panel_and_confounding_sensitivity.py --mode grid` | `outputs/sensitivity/confounding_grid/paired_differences.csv` |
-| Table 8. Estimator-Oriented Aggregate-Shock Diagnostic in the Combined Design | Point and interval results under TSLS-oriented and Robust-oriented shock loadings | `python analysis/shock_orientation_sensitivity.py` | `outputs/sensitivity/shock_orientation/summary.csv`; `paired_differences.csv`; `geometry_summary.csv` |
-| Table 9. Primary-Window Interval Coverage in the Full and Restricted Panels | ARIMA, HAC, and orthogonality-inversion coverage by design and state panel | `python run_simulation.py`; `python analysis/state_panel_and_confounding_sensitivity.py --mode sample` | `outputs/simulation/summary.csv`; `outputs/sensitivity/state_panel/summary.csv` |
-| Table 10. Interval Coverage Across Aggregate-Confounding Settings | ARIMA coverage over the aggregate-confounding grid | `python analysis/state_panel_and_confounding_sensitivity.py --mode grid` | `outputs/sensitivity/confounding_grid/summary.csv` |
-| Table 11. Longer-Window Bias and Root Mean Squared Error by Simulation Design | Fixed-state, larger-time-dimension point performance | `python run_simulation.py` | `outputs/simulation/summary.csv` |
-| Table 12. Longer-Window Interval Coverage by Inference Procedure and Simulation Design | Fixed-state, larger-time-dimension ARIMA, HAC, and orthogonality-inversion coverage | `python run_simulation.py` | `outputs/simulation/summary.csv` |
-
-## Supporting Computational Evidence
-
-| Paper content | Program | Generated file |
+| Exhibit | Content | Reference file under `reference_outputs/` |
 |---|---|---|
-| Empirical aggregation weights | `python empirical.py` | `outputs/empirical/weights_full.csv`; `outputs/empirical/weights_restricted.csv` |
-| Simulation component, calibration, and learning-window exposure-estimation record | `python run_simulation.py` | `outputs/simulation/component_summary.csv`; `outputs/simulation/manifest.json` |
-| Full replication-level simulation records | `python run_simulation.py` | `outputs/simulation/raw.csv` |
-| Denominator-tail discussion | `python audit_denominator_tails.py` | `outputs/simulation/denominator_tail_summary.csv`; `denominator_tail_conditional_summary.csv`; `denominator_tail_top_records.csv` |
-| State-panel paired estimator differences | `python analysis/state_panel_and_confounding_sensitivity.py --mode sample` | `outputs/sensitivity/state_panel/paired_differences.csv` |
-| Aggregate-confounding component diagnostics | `python analysis/state_panel_and_confounding_sensitivity.py --mode grid` | `outputs/sensitivity/confounding_grid/component_summary.csv` |
-| Target-anchor contrasts and weight stability | `python analysis/target_anchor_sensitivity.py --execute-full` | `outputs/sensitivity/target_anchor/target_contrasts.csv`; `weight_target_contrast_summary.csv` |
+| Figure 1 | State exposure coefficients | `figures/exposure_coefficients.csv`; `figures/paper_exposure_distribution.pdf` |
+| Table 1 | Empirical emissions estimates and instrument-treatment diagnostics | `empirical/results_summary.csv` |
+| Table 2 | Observed and simulated aggregate-equation diagnostics | `empirical/results_summary.csv`; `simulation/raw.csv`; `simulation/summary.csv` |
+| Table 3 | Point-estimation performance by panel and simulation design | `simulation/summary.csv`; `sensitivity/state_panel/summary.csv` |
+| Table 4 | Interval coverage by panel, procedure, and design | `simulation/summary.csv`; `sensitivity/state_panel/summary.csv` |
+| Table 5 | Bias and root mean squared error differences across confounding settings | `sensitivity/confounding_grid/paired_differences.csv` |
+| Table 6 | Interval coverage across confounding settings | `sensitivity/confounding_grid/summary.csv` |
+| Table 7 | Finite-window weight learning and Robust performance | `sensitivity/finite_window_weight_learning/weight_summary.csv`; `estimate_summary.csv`; `paired_effects.csv`; `population_convergence.csv` in the same directory |
+| Table S1 | Performance differences across simulation targets | `sensitivity/target_anchor/estimator_differences.csv` |
+| Table S2 | Performance differences under estimator-oriented shock loadings | `sensitivity/shock_orientation/summary.csv`; `paired_differences.csv`; `geometry_summary.csv` in the same directory |
+| Table S3 | Longer-window point and interval performance | `simulation/summary.csv` |
 
-## Complete Workflow
+The manuscript's typesetting is not rebuilt by this package. The analysis
+programs remain `empirical.py`, `run_simulation.py`,
+`make_exposure_figure.py`, and the four programs under `analysis/`.
+`audit_denominator_tails.py` supplies the denominator diagnostics.
+The finite-window analysis must evaluate the included objective file instead
+of rebuilding it during the proposed qualified workflow.
 
-Run all empirical, simulation, sensitivity, diagnostic, figure, and validation
-stages with:
-
-```bash
-python reproduce.py
-```
-
-`validate_results.py` checks the values displayed in the manuscript and
-compares regenerated files with the reference results. When the sensitivity
-analyses have been reproduced, include their output directory:
-
-```bash
-python validate_results.py --sensitivity-outputs outputs/sensitivity
-```
-
-The archived reference files appear under `reference_outputs/`. Their SHA-256
-checksums are recorded in `reference_outputs/SHA256SUMS`.
+WORKFLOW.json declares the commands and generated artifacts. Table 7 uses
+the bank's archived convergence summaries alongside the regenerated paired
+evaluation; bank construction is an input boundary, not a newly executed
+stage. Independent numerical reproduction and archived compatibility are
+separate acceptance checks; neither is established by validating reference
+files against their own checksums.

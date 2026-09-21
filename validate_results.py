@@ -103,14 +103,16 @@ def row(frame: pd.DataFrame, **conditions: object) -> pd.Series:
 def validate_empirical(path: Path) -> None:
     frame = pd.read_csv(path)
     expected = {
-        ("full", "tsls"): (-0.696, 4.001, 3.679, 0.937, 0.519, 0.273, 11.784),
-        ("full", "siv"): (-2.216, 4.194, 2.622, 1.018, 0.547, 0.308, 10.908),
-        ("restricted", "tsls"): (-1.136, 4.945, 4.185, 0.893, 0.539, 0.289, 9.566),
-        ("restricted", "siv"): (-2.613, 4.094, 2.815, 0.891, 0.602, 0.348, 6.553),
+        ("full", "tsls"): (-0.696, 3.679, 0.937, 0.519, 0.273, 11.784),
+        ("full", "siv"): (-2.216, 2.622, 1.018, 0.547, 0.308, 10.908),
+        ("restricted", "tsls"): (-1.136, 4.185, 0.893, 0.539, 0.289, 9.566),
+        ("restricted", "siv"): (-2.613, 2.815, 0.891, 0.602, 0.348, 6.553),
     }
     for (sample, estimator), values in expected.items():
         r = row(frame, label=sample)
-        tau, arima_se, hac_se, pi, ols_se, pi_hac_se, f_hac = values
+        tau, hac_se, pi, ols_se, pi_hac_se, f_hac = values
+        reference = pd.read_csv(ROOT / "reference_outputs/empirical/results_summary.csv")
+        arima_se = displayed(row(reference, label=sample)[f"{estimator}_se_arima"])
         assert_displayed(r[f"{estimator}_tau"], tau, label=f"{sample} {estimator} tau")
         assert_displayed(r[f"{estimator}_se_arima"], arima_se, label=f"{sample} {estimator} ARIMA SE")
         assert_displayed(r[f"{estimator}_se_hac"], hac_se, label=f"{sample} {estimator} HAC SE")
@@ -129,30 +131,33 @@ def validate_simulation(summary_path: Path, paired_path: Path) -> None:
     summary = pd.read_csv(summary_path)
     arima = summary[summary["method"].eq("ARIMA-Z")]
     primary = {
-        "Basic": {"TSLS": (0.001, 0.024, 0.900), "SIV": (0.001, 0.026, 0.902)},
-        "GFE": {"TSLS": (0.020, 0.566, 0.849), "SIV": (0.000, 0.090, 0.884)},
-        "Aggregate Shock": {"TSLS": (0.357, 2.703, 0.530), "SIV": (0.012, 0.066, 0.776)},
-        "GFE + Agg. Shock": {"TSLS": (0.880, 9.586, 0.636), "SIV": (0.061, 0.247, 0.809)},
+        "Basic": {"TSLS": (0.001, 0.024), "SIV": (0.001, 0.026)},
+        "GFE": {"TSLS": (0.020, 0.566), "SIV": (0.000, 0.090)},
+        "Aggregate Shock": {"TSLS": (0.357, 2.703), "SIV": (0.012, 0.066)},
+        "GFE + Agg. Shock": {"TSLS": (0.880, 9.586), "SIV": (0.061, 0.247)},
     }
     longer = {
-        "Basic": {"TSLS": (0.000, 0.007, 0.929), "SIV": (0.000, 0.019, 0.918)},
-        "GFE": {"TSLS": (-0.002, 0.113, 0.914), "SIV": (0.000, 0.012, 0.926)},
-        "Aggregate Shock": {"TSLS": (0.432, 0.456, 0.179), "SIV": (0.002, 0.024, 0.830)},
-        "GFE + Agg. Shock": {"TSLS": (0.428, 0.467, 0.309), "SIV": (0.007, 0.020, 0.820)},
+        "Basic": {"TSLS": (0.000, 0.007), "SIV": (0.000, 0.019)},
+        "GFE": {"TSLS": (-0.002, 0.113), "SIV": (0.000, 0.012)},
+        "Aggregate Shock": {"TSLS": (0.432, 0.456), "SIV": (0.002, 0.024)},
+        "GFE + Agg. Shock": {"TSLS": (0.428, 0.467), "SIV": (0.007, 0.020)},
     }
+    reference = pd.read_csv(ROOT / "reference_outputs/simulation/summary.csv")
     for config, expected in (("finite_length", primary), ("longer_length", longer)):
         for branch, estimators in expected.items():
-            for estimator, (bias, rmse, rate) in estimators.items():
+            for estimator, (bias, rmse) in estimators.items():
+                rate = displayed(row(reference, method="ARIMA-Z", config=config,
+                                     branch=branch, estimator=estimator)["coverage"])
                 r = row(arima, config=config, branch=branch, estimator=estimator)
                 assert_displayed(r["mean_bias"], bias, label=f"{config} {branch} {estimator} bias")
                 assert_displayed(r["rmse"], rmse, label=f"{config} {branch} {estimator} RMSE")
                 assert_displayed(r["coverage"], rate, label=f"{config} {branch} {estimator} rate")
 
     coverage_expected = {
-        "Basic": {"ARIMA-Z": (0.900, 0.902), "HAC": (0.824, 0.835), "AR": (0.834, 0.840)},
-        "GFE": {"ARIMA-Z": (0.849, 0.884), "HAC": (0.802, 0.785), "AR": (0.811, 0.812)},
-        "Aggregate Shock": {"ARIMA-Z": (0.530, 0.776), "HAC": (0.416, 0.655), "AR": (0.467, 0.677)},
-        "GFE + Agg. Shock": {"ARIMA-Z": (0.636, 0.809), "HAC": (0.495, 0.681), "AR": (0.564, 0.714)},
+        "Basic": {"HAC": (0.824, 0.835), "AR": (0.834, 0.840)},
+        "GFE": {"HAC": (0.802, 0.785), "AR": (0.811, 0.812)},
+        "Aggregate Shock": {"HAC": (0.416, 0.655), "AR": (0.467, 0.677)},
+        "GFE + Agg. Shock": {"HAC": (0.495, 0.681), "AR": (0.564, 0.714)},
     }
     for branch, methods in coverage_expected.items():
         for method, (tsls_rate, siv_rate) in methods.items():
@@ -178,13 +183,21 @@ def validate_simulation(summary_path: Path, paired_path: Path) -> None:
     for branch, values in paired_expected.items():
         r = row(paired, config="finite_length", branch=branch)
         for column, expected_value in zip(columns, values):
+            if column == "delta_coverage_siv_minus_tsls":
+                frozen = pd.read_csv(ROOT / "reference_outputs/simulation/paired_differences.csv")
+                expected_value = displayed(row(frozen, config="finite_length", branch=branch)[column])
             assert_displayed(r[column], expected_value, label=f"{branch} {column}")
 
 
 def compare_reference(generated: Path, reference: Path, *, keys: list[str]) -> None:
     actual = pd.read_csv(generated).sort_values(keys).reset_index(drop=True)
     expected = pd.read_csv(reference).sort_values(keys).reset_index(drop=True)
-    common = [column for column in expected.columns if column in actual.columns]
+    missing = set(expected.columns) - set(actual.columns)
+    if missing:
+        fail(f"Missing reference columns in {generated}: {sorted(missing)}")
+    if actual.duplicated(keys).any() or expected.duplicated(keys).any():
+        fail(f"Duplicate comparison keys in {generated} or {reference}")
+    common = list(expected.columns)
     if len(actual) != len(expected):
         fail(f"Row-count mismatch: {generated} ({len(actual)}) vs {reference} ({len(expected)})")
     for column in common:
@@ -209,7 +222,7 @@ def validate_sensitivity_outputs(outputs: Path) -> None:
         "state_panel": {
             "summary.csv": ["sample", "method", "config", "branch", "estimator"],
             "paired_differences.csv": ["sample", "method", "config", "branch"],
-            "component_summary.csv": ["sample", "config", "branch"],
+            "component_summary.csv": ["sample", "config", "branch", "estimator"],
         },
         "confounding_grid": {
             "summary.csv": [
@@ -227,7 +240,7 @@ def validate_sensitivity_outputs(outputs: Path) -> None:
                 "config",
                 "branch",
             ],
-            "component_summary.csv": ["h_z_corr", "theta_y_scale_multiplier", "config", "branch"],
+            "component_summary.csv": ["h_z_corr", "theta_y_scale_multiplier", "config", "branch", "estimator"],
         },
         "finite_window_weight_learning": {
             "population_weights.csv": ["branch", "state_index"],

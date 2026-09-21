@@ -8,14 +8,13 @@ Baseline: N=49 (drops CA and VT); sensitivity: N=51 (full sample).
 Learning window T0=5 (2008-2012); post-window T1=10 (2013-2022).
 
 Three inference procedures:
-  ARIMA  — primary design-based interval: fit ARIMA(2,0,0) to Z, simulate Z paths,
-            compute SD of u'Z_sim, SE = SD / (|π| · VarZ_post · T1)
+  ARIMA  — primary design-based interval: fit stationary ARIMA(2,0,0) to Z;
+            use analytical covariance with the observed slope denominator
   HAC    — Newey-West delta method, L=1
   AR     — Anderson-Rubin-style HAC orthogonality inversion, L=1
 
 Usage:
-  python empirical.py                     # full run, 80 000 ARIMA sims
-  python empirical.py --n-sims 5000       # fast check
+  python empirical.py                     # empirical analysis
   python empirical.py --out results/      # custom output directory
 """
 
@@ -369,7 +368,6 @@ def run_sample(
     Z: np.ndarray,
     units: list,
     label: str,
-    n_sims: int,
     out_dir: Path,
 ) -> dict:
     n, T = Y.shape
@@ -406,13 +404,13 @@ def run_sample(
     fs_t = first_stage(Wt_t, Z_post)
     fs_r = first_stage(Wt_r, Z_post)
 
-    # ── ARIMA simulation SE ──────────────────────────────────────────────────
-    arima_res, raw_mean, raw_scale = _fit_arima(Z)
-    print(f"  [{label}] ARIMA({ARIMA_ORDER}) fitted, running {n_sims:,} simulations ...")
-    se_arima_t = arima_simulation_se(est_t["u"], arima_res, raw_mean, raw_scale,
-                                     est_t["pi"], varZ_post, n_sims, seed=12345)
-    se_arima_r = arima_simulation_se(est_r["u"], arima_res, raw_mean, raw_scale,
-                                     est_r["pi"], varZ_post, n_sims, seed=12346)
+    from qualified_inference.reporting import interval_for_points
+    se_arima_t = interval_for_points(
+        Yt_t, Wt_t, Z_post, Z, est_t["tau"], est_t["pi"]
+    ).se
+    se_arima_r = interval_for_points(
+        Yt_r, Wt_r, Z_post, Z, est_r["tau"], est_r["pi"]
+    ).se
 
     # ── HAC delta SE ────────────────────────────────────────────────────────
     se_hac_t = hac_delta_se(Yt_t, Wt_t, Z_post)
@@ -441,10 +439,10 @@ def run_sample(
         "tsls_tau":  round(float(est_t["tau"]), 6),
         "siv_tau":   round(float(est_r["tau"]), 6),
         # ARIMA simulation SE — t(T1-2) critical for T1<=10, normal otherwise
-        "tsls_se_arima":  round(se_arima_t, 6),
-        "siv_se_arima":   round(se_arima_r, 6),
-        "tsls_p_arima":   round(p_two_sided_t(est_t["tau"] / se_arima_t, df_arima), 4),
-        "siv_p_arima":    round(p_two_sided_t(est_r["tau"] / se_arima_r, df_arima), 4),
+        "tsls_se_arima":  float(se_arima_t),
+        "siv_se_arima":   float(se_arima_r),
+        "tsls_p_arima":   float(p_two_sided_t(est_t["tau"] / se_arima_t, df_arima)),
+        "siv_p_arima":    float(p_two_sided_t(est_r["tau"] / se_arima_r, df_arima)),
         "arima_critical": round(c_arima, 4),
         # HAC delta SE — standard normal critical
         "tsls_se_hac":    round(se_hac_t, 6),
@@ -511,11 +509,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Empirical TSLS and Robust analysis")
     ap.add_argument("--data",   type=Path, default=ROOT / "data" / "panel_lag2.csv")
     ap.add_argument("--out",    type=Path, default=ROOT / "outputs" / "empirical")
-    ap.add_argument("--n-sims", type=int,  default=80000,
-                    help="ARIMA simulation draws (use 5000 for a quick check)")
     args = ap.parse_args()
 
-    print(f"Empirical analysis  panel={args.data.name}  n_sims={args.n_sims:,}")
+    print(f"Empirical analysis  panel={args.data.name}; analytical ARIMA covariance")
 
     df_all = load_panel(args.data)
     df = df_all[(df_all["time"] >= YEAR_START) & (df_all["time"] <= YEAR_END)].copy()
@@ -526,7 +522,7 @@ def main() -> None:
     for label, drop in [("restricted", RESTRICTED), ("full", None)]:
         sub = df[~df["unit"].isin(drop)].copy() if drop else df.copy()
         Y, W, Z, units, _ = pivot(sub)
-        r = run_sample(Y, W, Z, units, label, args.n_sims, args.out / f"lag{LAG}")
+        r = run_sample(Y, W, Z, units, label, args.out / f"lag{LAG}")
         results.append(r)
 
     # write summary CSV

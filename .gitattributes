@@ -1,3 +1,5 @@
 reference_outputs/**/*.csv -text -diff
 reference_outputs/**/*.pdf -text -diff
 reference_outputs/**/*.png -text -diff
+validation_data/**/*.csv -text -diff
+data/*.npz -text -diff
