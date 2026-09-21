@@ -439,10 +439,10 @@ def run_sample(
         "tsls_tau":  round(float(est_t["tau"]), 6),
         "siv_tau":   round(float(est_r["tau"]), 6),
         # ARIMA simulation SE — t(T1-2) critical for T1<=10, normal otherwise
-        "tsls_se_arima":  round(se_arima_t, 6),
-        "siv_se_arima":   round(se_arima_r, 6),
-        "tsls_p_arima":   round(p_two_sided_t(est_t["tau"] / se_arima_t, df_arima), 4),
-        "siv_p_arima":    round(p_two_sided_t(est_r["tau"] / se_arima_r, df_arima), 4),
+        "tsls_se_arima":  float(se_arima_t),
+        "siv_se_arima":   float(se_arima_r),
+        "tsls_p_arima":   float(p_two_sided_t(est_t["tau"] / se_arima_t, df_arima)),
+        "siv_p_arima":    float(p_two_sided_t(est_r["tau"] / se_arima_r, df_arima)),
         "arima_critical": round(c_arima, 4),
         # HAC delta SE — standard normal critical
         "tsls_se_hac":    round(se_hac_t, 6),
